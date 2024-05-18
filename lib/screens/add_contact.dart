@@ -20,8 +20,10 @@ class AddContactScreen extends StatelessWidget {
       navigationBar: CupertinoNavigationBar(
         middle: Text('Add Contact'),
         trailing: CupertinoSwitch(
-          onChanged: (value) {},
-          value: true,
+          onChanged: (value) {
+            addProviderFalse.changeTheme(value);
+          },
+          value: addProviderTrue.isDark,
         ),
       ),
       child: SafeArea(
