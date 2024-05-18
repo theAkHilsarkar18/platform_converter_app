@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
       ],
       builder: (context, child) => CupertinoApp(
         theme: CupertinoThemeData(
+          applyThemeToAll: true,
           brightness: (Provider.of<AddProvider>(context,listen: true).isDark)?Brightness.dark:Brightness.light,
         ),
         debugShowCheckedModeBanner: false,
