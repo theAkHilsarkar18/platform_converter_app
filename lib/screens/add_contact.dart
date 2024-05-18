@@ -11,7 +11,6 @@ class AddContactScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final addProviderTrue = Provider.of<AddProvider>(context, listen: true);
     final addProviderFalse = Provider.of<AddProvider>(context, listen: false);
 
@@ -86,15 +85,16 @@ class AddContactScreen extends StatelessWidget {
                               child: Text('Pick Time'),
                               onPressed: () {
                                 showCupertinoModalPopup(
-                                    context: context,
-                                    builder: (context) => Container(
-                                          height: 250,
-                                          decoration: BoxDecoration(
-                                              color: CupertinoColors.white),
-                                          child: CupertinoTimerPicker(
-                                            onTimerDurationChanged: (value) {},
-                                          ),
-                                        ));
+                                  context: context,
+                                  builder: (context) => Container(
+                                    height: 250,
+                                    decoration: BoxDecoration(
+                                        color: CupertinoColors.white),
+                                    child: CupertinoTimerPicker(
+                                      onTimerDurationChanged: (value) {},
+                                    ),
+                                  ),
+                                );
                               },
                             ),
                           ],
@@ -103,16 +103,16 @@ class AddContactScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CupertinoButton.filled(
                     child: Text('Save'),
                     onPressed: () {
-
-                      ContactModel contactModel = ContactModel(phone: txtPhone.text, name: txtName.text, about: txtAbout.text);
+                      ContactModel contactModel = ContactModel(
+                          phone: txtPhone.text,
+                          name: txtName.text,
+                          about: txtAbout.text);
                       addProviderFalse.addToList(contactModel);
-
                     },
                   ),
                 ),
