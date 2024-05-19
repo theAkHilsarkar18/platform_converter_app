@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:platform_converter_app/provider/add_provider.dart';
 import 'package:platform_converter_app/screens/add_contact.dart';
@@ -27,18 +29,17 @@ class DataScreen extends StatelessWidget {
           ),
           SliverFillRemaining(
             child: ListView.builder(
+              itemCount: addProviderTrue.contactList.length,
               itemBuilder: (context, index) => GestureDetector(
                 onTap: () {
-                  addProviderFalse.liveIndex(index);
+                  // TODO : key point is here----
+                  String name = addProviderTrue.contactList[index].name;
                   showCupertinoModalPopup(
                     context: context,
-                    builder: (context) => Consumer(
-                      builder: (context, AddProvider addProviderTrue, child) =>
-                          CupertinoActionSheet(
-                        title: Text(addProviderTrue
-                            .contactList[
-                                index == addProviderTrue.newIndex ? index : 0]
-                            .name),
+                    builder: (context) {
+                      log("Index: $index");
+                      return CupertinoActionSheet(
+                        title: Text(name),
                         // message: Text(addProviderTrue.contactList[index].phone),
                         actions: [
                           CupertinoActionSheetAction(
@@ -80,7 +81,7 @@ class DataScreen extends StatelessWidget {
                                   ),
                                   actions: [
                                     CupertinoButton(
-                                        child: Text('Edit'),
+                                        child: const Text('Edit'),
                                         onPressed: () {
                                           addProviderFalse.updateFromList(
                                               txtEditPhone,
@@ -90,7 +91,7 @@ class DataScreen extends StatelessWidget {
                                           Navigator.of(context).pop();
                                         }),
                                     CupertinoButton(
-                                        child: Text('Cancel'),
+                                        child: const Text('Cancel'),
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                         }),
@@ -102,8 +103,8 @@ class DataScreen extends StatelessWidget {
                           ),
                           CupertinoActionSheetAction(
                             onPressed: () {
-                              addProviderFalse.removerFromList(index);
                               Navigator.pop(context);
+                              addProviderFalse.removerFromList(index);
                             },
                             child: const Text('Delete'),
                           ),
@@ -115,8 +116,8 @@ class DataScreen extends StatelessWidget {
                             child: const Text('Cancel'),
                           ),
                         ],
-                      ),
-                    ),
+                      );
+                    },
                   );
                 },
                 child: Padding(
@@ -127,12 +128,11 @@ class DataScreen extends StatelessWidget {
                         Text(addProviderTrue.contactList[index].phone ?? ""),
                     additionalInfo: Text(
                       addProviderTrue.contactList[index].about,
-                      style: TextStyle(fontSize: 12),
+                      style: const TextStyle(fontSize: 12),
                     ),
                   ),
                 ),
               ),
-              itemCount: addProviderTrue.contactList.length,
             ),
           ),
         ],
