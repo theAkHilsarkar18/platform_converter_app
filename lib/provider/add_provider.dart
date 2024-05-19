@@ -1,34 +1,39 @@
 import 'package:flutter/cupertino.dart';
 import 'package:platform_converter_app/model/contact_model.dart';
 
-class AddProvider extends ChangeNotifier
-{
+class AddProvider extends ChangeNotifier {
   List<ContactModel> contactList = [];
   bool isDark = false;
+  int newIndex = 0;
 
-  void addToList(ContactModel contactModel)
-  {
+  void addToList(ContactModel contactModel) {
     contactList.add(contactModel);
     notifyListeners();
   }
 
-  void removerFromList(int index)
-  {
+  void liveIndex(int index) {
+    newIndex = index;
+    notifyListeners();
+  }
+
+  void removerFromList(int index) {
     contactList.removeAt(index);
     notifyListeners();
   }
 
-  void updateFromList(TextEditingController txtPhone,TextEditingController txtName,TextEditingController txtAbout,int index)
-  {
-    ContactModel contactModel = ContactModel(phone: txtPhone.text, name: txtName.text, about: txtAbout.text);
+  void updateFromList(
+      TextEditingController txtPhone,
+      TextEditingController txtName,
+      TextEditingController txtAbout,
+      int index) {
+    ContactModel contactModel = ContactModel(
+        phone: txtPhone.text, name: txtName.text, about: txtAbout.text);
     contactList[index] = contactModel;
     notifyListeners();
   }
 
-  void changeTheme(bool value)
-  {
+  void changeTheme(bool value) {
     isDark = value;
     notifyListeners();
   }
-
 }

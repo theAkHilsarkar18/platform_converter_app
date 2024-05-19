@@ -29,91 +29,102 @@ class DataScreen extends StatelessWidget {
             child: ListView.builder(
               itemBuilder: (context, index) => GestureDetector(
                 onTap: () {
+                  addProviderFalse.liveIndex(index);
                   showCupertinoModalPopup(
                     context: context,
-                    builder: (context) => CupertinoActionSheet(
-                      title: Text(addProviderTrue.contactList[index].name),
-                      message: Text(addProviderTrue.contactList[index].phone),
-                      actions: [
-                        CupertinoActionSheetAction(
-                          onPressed: () {
-                            txtEditName = TextEditingController(
-                                text: addProviderTrue.contactList[index].name);
-                            txtEditPhone = TextEditingController(
-                                text: addProviderTrue.contactList[index].phone);
-                            txtEditAbout = TextEditingController(
-                                text: addProviderTrue.contactList[index].about);
+                    builder: (context) => Consumer(
+                      builder: (context, AddProvider addProviderTrue, child) =>
+                          CupertinoActionSheet(
+                        title: Text(addProviderTrue
+                            .contactList[
+                                index == addProviderTrue.newIndex ? index : 0]
+                            .name),
+                        // message: Text(addProviderTrue.contactList[index].phone),
+                        actions: [
+                          CupertinoActionSheetAction(
+                            onPressed: () {
+                              txtEditName = TextEditingController(
+                                  text:
+                                      addProviderTrue.contactList[index].name);
+                              txtEditPhone = TextEditingController(
+                                  text:
+                                      addProviderTrue.contactList[index].phone);
+                              txtEditAbout = TextEditingController(
+                                  text:
+                                      addProviderTrue.contactList[index].about);
 
-                            Navigator.pop(context);
-                            showCupertinoDialog(
-                              context: context,
-                              builder: (context) => CupertinoAlertDialog(
-                                title: const Text('Edit Contacts'),
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    AdaptiveTextField(
-                                      placeholder: 'Full Name',
-                                      txtController: txtEditName,
-                                      icon: CupertinoIcons.person,
-                                    ),
-                                    AdaptiveTextField(
-                                      placeholder: 'Phone NO.',
-                                      txtController: txtEditPhone,
-                                      icon: CupertinoIcons.phone,
-                                    ),
-                                    AdaptiveTextField(
-                                      placeholder: 'About',
-                                      txtController: txtEditAbout,
-                                      icon: CupertinoIcons.chart_bar,
-                                    ),
+                              Navigator.pop(context);
+                              showCupertinoDialog(
+                                context: context,
+                                builder: (context) => CupertinoAlertDialog(
+                                  title: const Text('Edit Contacts'),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      AdaptiveTextField(
+                                        placeholder: 'Full Name',
+                                        txtController: txtEditName,
+                                        icon: CupertinoIcons.person,
+                                      ),
+                                      AdaptiveTextField(
+                                        placeholder: 'Phone NO.',
+                                        txtController: txtEditPhone,
+                                        icon: CupertinoIcons.phone,
+                                      ),
+                                      AdaptiveTextField(
+                                        placeholder: 'About',
+                                        txtController: txtEditAbout,
+                                        icon: CupertinoIcons.chart_bar,
+                                      ),
+                                    ],
+                                  ),
+                                  actions: [
+                                    CupertinoButton(
+                                        child: Text('Edit'),
+                                        onPressed: () {
+                                          addProviderFalse.updateFromList(
+                                              txtEditPhone,
+                                              txtEditName,
+                                              txtEditAbout,
+                                              index);
+                                          Navigator.of(context).pop();
+                                        }),
+                                    CupertinoButton(
+                                        child: Text('Cancel'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        }),
                                   ],
                                 ),
-                                actions: [
-                                  CupertinoButton(
-                                      child: Text('Edit'),
-                                      onPressed: () {
-                                        addProviderFalse.updateFromList(
-                                            txtEditPhone,
-                                            txtEditName,
-                                            txtEditAbout,
-                                            index);
-                                        Navigator.of(context).pop();
-                                      }),
-                                  CupertinoButton(
-                                      child: Text('Cancel'),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      }),
-                                ],
-                              ),
-                            );
-                          },
-                          child: const Text('Edit'),
-                        ),
-                        CupertinoActionSheetAction(
-                          onPressed: () {
-                            addProviderFalse.removerFromList(index);
-                            Navigator.pop(context);
-                          },
-                          child: const Text('Delete'),
-                        ),
-                        CupertinoActionSheetAction(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          isDestructiveAction: true,
-                          child: const Text('Cancel'),
-                        ),
-                      ],
+                              );
+                            },
+                            child: const Text('Edit'),
+                          ),
+                          CupertinoActionSheetAction(
+                            onPressed: () {
+                              addProviderFalse.removerFromList(index);
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Delete'),
+                          ),
+                          CupertinoActionSheetAction(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            isDestructiveAction: true,
+                            child: const Text('Cancel'),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CupertinoListTile(
-                    title: Text(addProviderTrue.contactList[index].name),
-                    subtitle: Text(addProviderTrue.contactList[index].phone),
+                    title: Text(addProviderTrue.contactList[index].name ?? ""),
+                    subtitle:
+                        Text(addProviderTrue.contactList[index].phone ?? ""),
                     additionalInfo: Text(
                       addProviderTrue.contactList[index].about,
                       style: TextStyle(fontSize: 12),
